@@ -1,0 +1,8 @@
+﻿docker run -it --rm -p 3000:8080 --name minimalapicontainer minimalapi
+
+
+docker build -t minimalapi .
+
+docker images
+
+docker run -it --rm -p 3000:8080 --name minimalapicontainer --add-host=192.168.0.103:host-gateway minimalapi
