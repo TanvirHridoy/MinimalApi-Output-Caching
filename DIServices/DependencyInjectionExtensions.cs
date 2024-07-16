@@ -110,11 +110,12 @@ public static class DependencyInjectionExtensions
 
         services.AddOutputCache(opt =>
         {
-            opt.AddBasePolicy(builder => builder.Expire(TimeSpan.FromMinutes(10)));
+            opt.AddBasePolicy(builder => builder.Expire(TimeSpan.FromMinutes(10)));// Base policy
+            
             opt.AddPolicy("ReligionPolicy", builder =>
                 builder.AddPolicy<AuthenticatedCachePolicy>()
                        .Tag("Religion")
-                       .Expire(TimeSpan.FromMinutes(10)));
+                       .Expire(TimeSpan.FromMinutes(30)));
         });
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();

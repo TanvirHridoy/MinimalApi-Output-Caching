@@ -25,11 +25,11 @@ public static class HRReligionGroupExtention
             return religion != null ? Results.Ok(religion) : Results.NotFound();
         }).WithName("GetReligionById");
 
-        group.MapPost("/CreateReligion", async (IOutputCacheStore cache, [FromServices] ReligionRepository repo, Religion religion, CancellationToken ct) =>
+        group.MapPost("/CreateReligion", async (IOutputCacheStore cache,  [FromServices] ReligionRepository repo, Religion religion, CancellationToken ct) =>
         {
             var NewReligion = await repo.Add(religion);
-            await cache.EvictByTagAsync("Religion", ct);
-            return Results.CreatedAtRoute("GetById", new { id = NewReligion.Id }, NewReligion);
+            await cache.EvictByTagAsync("Religion",ct);
+            return Results.CreatedAtRoute("GetReligionById", new { id = NewReligion.Id }, NewReligion);
         }).WithName("CreateReligion").WithOpenApi();
 
         group.MapPut("/UpdateReligion/{id}", async (IOutputCacheStore cache, [FromServices] ReligionRepository repo, int id, Religion religion, CancellationToken ct) =>
