@@ -22,7 +22,9 @@ public static class DependencyInjectionExtensions
     {
         services.AddAppMetricsServices();
 
-        services.AddDbContext<EmployeeDbContext>(o => o.UseSqlServer(config.GetConnectionString("EmployeeDb")));
+        //services.AddDbContext<EmployeeDbContext>(o => o.UseSqlServer(config.GetConnectionString("EmployeeDb")));
+        services.AddDbContext<EmployeeDbContext>(o => o.UseNpgsql(config.GetConnectionString("PostgresEmployeeDb")));
+
         services.AddIdentity<ApplicationUser, ApplicationUserRole>(options =>
         {
             options.Password.RequireDigit = true;
@@ -30,9 +32,7 @@ public static class DependencyInjectionExtensions
             options.Password.RequireNonAlphanumeric = false;
             options.Password.RequireUppercase = true;
             options.Password.RequireLowercase = true;
-        })
-                .AddEntityFrameworkStores<EmployeeDbContext>()
-                .AddDefaultTokenProviders();
+        }).AddEntityFrameworkStores<EmployeeDbContext>().AddDefaultTokenProviders();
 
         services.AddAuthentication(options =>
         {

@@ -11,8 +11,6 @@ public class ApplicationUser : IdentityUser<string>
     public required string FullName { get; set; }
 
     [Required]
-    [Column(TypeName = "datetime")]
-    [DataType(DataType.DateTime)]
     public DateTime CreatedDate { get; set; }
 
     public string? RefreshToken { get; set; }

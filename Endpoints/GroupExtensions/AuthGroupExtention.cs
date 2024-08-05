@@ -62,7 +62,7 @@ public static class AuthGroupExtention
             var refreshToken = jwtTokenService.GenerateRefreshToken();
             user.RefreshToken = refreshToken;
             _ = int.TryParse(_configuration["JWT:RefreshTokenValidityInDays"], out int refreshTokenValidityInDays);
-            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(refreshTokenValidityInDays);
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(refreshTokenValidityInDays);
             await userManager.UpdateAsync(user);
             #endregion
 
@@ -91,7 +91,7 @@ public static class AuthGroupExtention
             string username = principal.Identity.Name;
             var user = await userManager.FindByNameAsync(username);
 
-            if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+            if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
             {
                 return Results.BadRequest("Invalid access token or refresh token");
             }
